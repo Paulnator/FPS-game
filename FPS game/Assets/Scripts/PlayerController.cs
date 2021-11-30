@@ -43,10 +43,10 @@ public class PlayerController : MonoBehaviour
         //Calculate camera rotation as a 3D vector (turning around player )
         float _xRot = Input.GetAxisRaw("Mouse Y");
 
-        Vector3 _cameraRotation = new Vector3(_xRot, 0f, 0f) * mouseSensitivity;
+        float _cameraRotationX = _xRot * mouseSensitivity;
 
         //apply camera rotation
-        motor.RotateCamera(_cameraRotation);
+        motor.RotateCamera(_cameraRotationX);
     }
 
     
