@@ -1,11 +1,12 @@
 using UnityEngine;
 using UnityEngine.Networking;
 
-#pragma warning disable 0618 //'NetworkBehaviour' is obsolete: 'The high level API classes are deprecated and will be removed in the future.
+#pragma warning disable 0618
 public class PlayerSetup : NetworkBehaviour {
 
     [SerializeField]
     Behaviour[] componentsToDisable;
+
     [SerializeField]
     string remoteLayerName = "RemotePlayer";
 
@@ -24,7 +25,8 @@ public class PlayerSetup : NetworkBehaviour {
             if(SceneCamera != null)
             {
                 SceneCamera.gameObject.SetActive(false);
-            }      
+            }
+            
         }
 
         RegisterPlayer();
@@ -36,13 +38,11 @@ public class PlayerSetup : NetworkBehaviour {
         string _ID = "Player " + GetComponent<NetworkIdentity>().netId;
         transform.name = _ID;
     }
-
-    void  AssingRemoteLayer()
+    void AssingRemoteLayer()
     {
         gameObject.layer = LayerMask.NameToLayer(remoteLayerName);
-    }
-
-    void  DisableComponents()
+    }   
+    void DisableComponents()
     {
         for (int i = 0; i < componentsToDisable.Length; i++)
         {
