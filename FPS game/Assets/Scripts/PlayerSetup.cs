@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 #pragma warning disable 0618
+
+[RequireComponent(typeof(Player))]
 public class PlayerSetup : NetworkBehaviour {
 
     [SerializeField]
@@ -25,19 +27,20 @@ public class PlayerSetup : NetworkBehaviour {
             if(SceneCamera != null)
             {
                 SceneCamera.gameObject.SetActive(false);
-            }
-            
+            }            
         }
-
-        RegisterPlayer();
-
     }
 
-    void RegisterPlayer()
+    public override void OnStartClient()
     {
-        string _ID = "Player " + GetComponent<NetworkIdentity>().netId;
-        transform.name = _ID;
+        base.OnStartClient();
+
+        string _netID = GetComponent<NetworkIdentity>().netId.ToString();
+        Player _player = GetComponent<Player>();   
+
+        GameManager.RegisterPlayer(_netID, _player);
     }
+
     void AssingRemoteLayer()
     {
         gameObject.layer = LayerMask.NameToLayer(remoteLayerName);
@@ -56,6 +59,8 @@ public class PlayerSetup : NetworkBehaviour {
         {
             SceneCamera.gameObject.SetActive(true);
         }
+
+        GameManager.UnRegisterPlayer(transform.name);
     }
 
 
